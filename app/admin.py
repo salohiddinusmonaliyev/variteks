@@ -4,3 +4,5 @@ from .models import *
 
 # Register your models here.
 admin.site.register(Social)
+admin.site.register(Main)
+

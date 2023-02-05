@@ -22,18 +22,24 @@ from about.views import *
 from account.views import UserViewSet
 from rest_framework.routers import DefaultRouter
 
+from app.views import *
 from blog.views import BlogView
-from contact.views import ContactUsView
+from contact.views import *
 from product.views import Productview
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register('main', MainView)
+router.register('social', SocialView)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("about/<str:lang>/", AboutItemView.as_view()),
+    path("about-us/<str:lang>/", AboutItemView.as_view()),
     path("blog/<str:lang>/", BlogView.as_view()),
     path("contact/<str:lang>/", ContactUsView.as_view()),
+    path("human-resources/<str:lang>/", HumanResourcesView.as_view()),
     path("product/<str:lang>/", Productview.as_view()),
+    # path("main/", MainView.as_view()),
     path('', include(router.urls)),
 ]
