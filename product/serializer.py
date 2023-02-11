@@ -54,6 +54,12 @@ class Product_ru_serializer(serializers.HyperlinkedModelSerializer):
         model = Product
         fields = ["name","description"]
 
+class Product_serializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = ["name_uz","name_ru","description_uz"]
+
 # Main
 class Main_imageserializer(ModelSerializer):
     class Meta:

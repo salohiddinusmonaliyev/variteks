@@ -25,7 +25,7 @@ from rest_framework.routers import DefaultRouter
 from app.views import *
 from blog.views import BlogView
 from contact.views import *
-from product.views import Productview
+from product.views import *
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -39,7 +39,8 @@ urlpatterns = [
     path("blog/<str:lang>/", BlogView.as_view()),
     path("contact/<str:lang>/", ContactUsView.as_view()),
     path("human-resources/<str:lang>/", HumanResourcesView.as_view()),
-    path("product/<str:lang>/", Productview.as_view()),
+    path("product/", Productview.as_view()),
+    path("test/ ", UserListView.as_view()),
     # path("main/", MainView.as_view()),
     path('', include(router.urls)),
 ]

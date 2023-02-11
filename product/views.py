@@ -6,6 +6,42 @@ from rest_framework.response import Response
 
 from rest_framework.views import APIView
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
+class Productview(generics.ListAPIView):
+    queryset = Product.objects.all()
+    filter_backends = [filters.SearchFilter]
+    def get(self,request,lang):
+        if lang=="uz":
+            queryset = Product.objects.all()
+            serializer = Product_uz_serializer(queryset,many=True)
+            search_fields = ('name_uz')
+            return Response(serializer.data)
+        elif lang=="ru":
+            queryset = Product.objects.all()
+            serializer = Product_ru_serializer(queryset,many=True)
+            search_fields = ('name_ru')
+            return Response(serializer.data)
+
+class UserListView(generics.ListAPIView):
+    serializer_class = Product_uz_serializer
+    def get(self,request):
+        lang = request.POST.get("lang")
+        if lang=="uz":
+            queryset = Product.objects.all()
+            serializer = Product_uz_serializer(queryset,many=True)
+            self.serializer_class = Product_uz_serializer
+            self.filter_backends = [filters.SearchFilter]
+            self.search_fields = ['name']
+            return queryset
+        elif lang=="ru":
+            queryset = Product.objects.all()
+            serializer = Product_ru_serializer(queryset,many=True)
+            search_fields = ('name')
+            return Response(serializer.data)
+
+
 class Main_imageViewSet(ModelViewSet):
     queryset = MainImage.objects.all()
     serializer_class = Main_imageserializer
@@ -38,17 +74,4 @@ class Subcategoryview(APIView):
         elif lang=="ru":
             queryset = Subcategory.objects.all()
             serializer = Subcategory_ru_serializer(queryset,many=True)
-            return Response(serializer.data)
-
-
-class Productview(APIView):
-    queryset = Product.objects.all()
-    def get(self,request,lang):
-        if lang=="uz":
-            queryset = Product.objects.all()
-            serializer = Product_uz_serializer(queryset,many=True)
-            return Response(serializer.data)
-        elif lang=="ru":
-            queryset = Product.objects.all()
-            serializer = Product_ru_serializer(queryset,many=True)
             return Response(serializer.data)
